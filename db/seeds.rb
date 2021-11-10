@@ -204,3 +204,137 @@ end
 
 puts "Post: #{Post.where(blog: ulb, user: us5).count}"
 puts "tarea 17 hecha"
+
+#tarea 18 Haz que el tercer usuario cree varias publicaciones en diferentes blogs.
+
+us3 = User.where(first_name: "Usuario 3").first
+
+Blog.all.each do |t|
+  p = Post.new
+  # p.blog = Blog.find(t.id)
+  # p.blog = Blog.where(id: t.id).first
+  p.blog = t
+  p.user = us3
+  p.title = "Titulo nnnnnnnn#{t}"
+  p.content = "contenido nnnnnnnn#{t}"
+  p.save
+end
+
+#puts "#{us3.post.count}"
+puts "#{Post.where(user: us3).count}"
+
+puts "tarea 18 hecha"
+
+# Tarea 19 Haz que el tercer usuario cree 2 mensajes para la primera publicación creada y 3 mensajes para la segunda publicación creada.
+
+primpost = Post.all.first
+secpost = Post.all[1]
+
+1.upto(2) do |t|
+m = Message.new
+m.post = primpost
+m.user = us3
+# usuario identificado mas arriba
+m.author = "autor xxxxxxxxxx"
+m.message = "mensaje xxxxxxxx"
+m.save
+end
+
+1.upto(3) do |t|
+m = Message.new
+m.post = secpost
+m.user = us3
+# usuario identificado mas arriba
+m.author = "autor xxxxxxxxxx"
+m.message = "mensaje xxxxxxxx"
+m.save
+end
+
+puts "#{Message.where(user: User.where(first_name: "Usuario 3")).count}"
+
+puts Message.where(user: us3).count
+
+puts us3.message.count
+
+puts "tarea 19 hecha"
+
+# tarea 20 Haz que el cuarto usuario cree 3 mensajes para la última publicación que tu creaste.
+
+us4 = User.where(first_name: "Usuario 4").first
+
+ultpost = Post.last
+
+1.upto(3) do |t|
+m = Message.new
+m.post = ultpost
+m.user = us4
+# usuario identificado mas arriba
+m.author = "autor xxxxxxxxxx"
+m.message = "mensaje xxxxxxxx"
+m.save
+end
+
+puts us4.message.count
+
+puts "tarea 20 hecha"
+
+# tarea 21 Cambie el propietario de la 2 publicación para que sea el último usuario.
+
+secpost = Post.all[1]
+puts "Antes => #{secpost.user.first_name}"
+ultusu = User.all.last
+secpost.user = ultusu
+secpost.save
+puts "Despues => #{secpost.user.first_name}"
+
+puts "tarea 21 hecha"
+
+# tarea 22 Cambie el contenido de la segunda publicación por algo diferente.
+
+sp = Post.all[1]
+
+sp.content = nil
+sp.save
+
+puts sp.errors.full_messages
+
+puts "Contenido Modificado: #{sp.content}"
+puts "tarea 22 hecha"
+
+# tarea 23 Obtenga todos los blog que son propiedad del tercer usuario (haz que esto funcione con un simple Usuario.find(3).blogs).
+
+us3 = User.find(3)
+owners = us3.owner
+blog_id = owners.pluck(:blog_id)
+#blog_id => [45, 3 23]
+blogs = Blog.where(id: blog_id)
+puts "Blogs del usuario 3: #{blogs}"
+puts "tarea 23 hecha"
+
+# tarea 24 Obtenga todas las publicaciones que fueron creadas por el tercer usuario.
+
+us3 = User.find(3)
+us3 = User.where(first_name: "Usuario 3").first
+puts us3.post #has_many
+
+puts Post.where(user: us3) #belongs to
+
+puts "tarea 24 hecha"
+
+#tarea 25 Obtenga todos los mensajes escritos por el tercer usuario.
+
+us3 = User.find(3)
+us3 = User.where(first_name: "Usuario 3").first
+
+puts us3.message #has_many
+
+puts Message.where(user: us3) #belongs to
+
+puts "tarea 25 hecha"
+
+# tarea 26  obtenga todas las publicaciones asociadas al blog con id = 5 y quién dejó cada publicación.
+
+
+
+
+
